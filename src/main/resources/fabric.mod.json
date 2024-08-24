@@ -1,0 +1,42 @@
+{
+	"schemaVersion": 1,
+	"id": "ultimate-gesture-menu",
+	"version": "${version}",
+	"name": "Ultimate Gesture Menu",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"Me!"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/ultimate-gesture-menu/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.jackyblackson.modfabric.ultimate.gesture.menu.UltimateGestureMenu"
+		],
+		"client": [
+			"com.jackyblackson.modfabric.ultimate.gesture.menu.UltimateGestureMenuClient"
+		]
+	},
+	"mixins": [
+		"ultimate-gesture-menu.mixins.json",
+		{
+			"config": "ultimate-gesture-menu.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.16.2",
+		"minecraft": "~1.20.4",
+		"java": ">=17",
+		"fabric-api": "*",
+		"malilib": ">=0.18.0"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
