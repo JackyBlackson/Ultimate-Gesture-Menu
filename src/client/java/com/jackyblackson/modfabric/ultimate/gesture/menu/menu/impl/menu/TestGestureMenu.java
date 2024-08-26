@@ -5,25 +5,40 @@ import com.jackyblackson.modfabric.ultimate.gesture.menu.menu.impl.item.TestMenu
 import com.jackyblackson.modfabric.ultimate.gesture.menu.util.Color;
 import net.minecraft.client.gui.screen.Screen;
 
+import java.util.Random;
+
 public class TestGestureMenu extends BaseGestureMenu{
-    public TestGestureMenu(String title, Screen parent) {
-        super(title, parent);
+    public TestGestureMenu(String id, Screen parent) {
+        super(id, parent);
+        var random = new Random();
         var c = new MenuItemCoordinate(-1, 0);
         this.setItem(
                 c,
-                new TestMenuItem(c, "dirt", Color.of(151, 109, 90, 100))
+                new TestMenuItem(c, "dirt", Color.of(
+                        random.nextInt(40, 200),
+                        random.nextInt(40, 200),
+                        random.nextInt(40, 200),
+                        100))
         );
 
         c = new MenuItemCoordinate(-1, -1);
         this.setItem(
                 c,
-                new TestMenuItem(c, "grass_block", Color.of(126, 191, 153, 100))
+                new TestMenuItem(c, "grass_block", Color.of(
+                        random.nextInt(40, 200),
+                        random.nextInt(40, 200),
+                        random.nextInt(40, 200),
+                        100))
         );
 
-        c = new MenuItemCoordinate(1, 1);
+        c = new MenuItemCoordinate(2, 1);
         this.setItem(
                 c,
-                new TestMenuItem(c, "gold_block", Color.of(255, 187, 114, 100))
+                new TestMenuItem(c, "gold_block", Color.of(
+                        random.nextInt(40, 200),
+                        random.nextInt(40, 200),
+                        random.nextInt(40, 200),
+                        100))
         );
     }
 }

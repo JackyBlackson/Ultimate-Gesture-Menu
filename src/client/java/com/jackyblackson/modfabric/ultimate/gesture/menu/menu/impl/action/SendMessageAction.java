@@ -1,11 +1,10 @@
 package com.jackyblackson.modfabric.ultimate.gesture.menu.menu.impl.action;
 
 import com.jackyblackson.modfabric.ultimate.gesture.menu.menu.IGestureMenuItem;
-import com.jackyblackson.modfabric.ultimate.gesture.menu.menu.impl.item.BaseMenuItem;
 import com.jackyblackson.modfabric.ultimate.gesture.menu.util.PlayerMessageUtils;
 
 public class SendMessageAction extends BaseMenuAction {
-    private String message;
+    private final String message;
 
     public SendMessageAction(String message) {
         this.message = message;
@@ -13,7 +12,7 @@ public class SendMessageAction extends BaseMenuAction {
 
     @Override
     public String act(IGestureMenuItem item) {
-        boolean success = PlayerMessageUtils.sendMessage(this.message, true);
+        boolean success = PlayerMessageUtils.sendPublicMessage(this.message, true);
         if(success) {
             return null;
         } else {

@@ -1,6 +1,7 @@
 package com.jackyblackson.modfabric.ultimate.gesture.menu.menu.impl.menu;
 
 import com.jackyblackson.modfabric.ultimate.gesture.menu.config.Configs;
+import com.jackyblackson.modfabric.ultimate.gesture.menu.menu.GestureMenuManager;
 import com.jackyblackson.modfabric.ultimate.gesture.menu.menu.IGestureMenu;
 import com.jackyblackson.modfabric.ultimate.gesture.menu.menu.IGestureMenuItem;
 import com.jackyblackson.modfabric.ultimate.gesture.menu.menu.MenuItemCoordinate;
@@ -10,9 +11,11 @@ import com.jackyblackson.modfabric.ultimate.gesture.menu.menu.impl.item.BaseMenu
 import com.jackyblackson.modfabric.ultimate.gesture.menu.util.Color;
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,11 +47,14 @@ public class BaseGestureMenu extends Screen implements IGestureMenu {
     private int lastMouseX = -1;
     private int lastMouseY = -1;
 
-    public BaseGestureMenu(String titleTranslationKey, Screen parent) {
-        super(Text.translatableWithFallback(titleTranslationKey, "A Gesture Menu"));
-        this.parent = parent;
+    private String menuId;
+
+    public BaseGestureMenu(@NotNull String menuId, Screen parent) {
+        super(Text.literal(menuId));
+        this.menuId = menuId;
         this.renderItemMap = new HashMap<>();
         this.menuItemMap = new HashMap<>();
+        this.parent = parent;
         initCentralItem();
     }
 
@@ -80,14 +86,6 @@ public class BaseGestureMenu extends Screen implements IGestureMenu {
         }
     }
 
-    public BaseGestureMenu(Text title, Screen parent) {
-        super(title);
-        this.parent = parent;
-        this.renderItemMap = new HashMap<>();
-        this.menuItemMap = new HashMap<>();
-        initCentralItem();
-    }
-
     private void initCentralItem() {
         var c = new MenuItemCoordinate(0, 0);
         var item = new BackToParentItem(this, c, new BackToParentMenuAction());
@@ -101,8 +99,8 @@ public class BaseGestureMenu extends Screen implements IGestureMenu {
     }
 
     @Override
-    public Text getTitleText() {
-        return this.title;
+    public String getMenuId() {
+        return this.menuId;
     }
 
     @Override
@@ -130,20 +128,44 @@ public class BaseGestureMenu extends Screen implements IGestureMenu {
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         this.lastMouseX = this.lastMouseX < 0 ? mouseX : lastMouseX;
         this.lastMouseY = this.lastMouseY < 0 ? mouseY : lastMouseY;
-        this.handleMouseMove(mouseX, mouseY);
+        boolean skipDefaultImpl = handleMouseMove(mouseX, mouseY);
         assert this.client != null;
         int windowHeight = this.height;
         int windowWidth = this.width;
         int windowCenterX = windowWidth  / 2;
         int windowCenterY = windowHeight / 2;
         int padding  =  30;
-        int margin   =  10;
+        int margin   =  Math.max(4, 30 / (itemCount-1));    // if have 3 items, then it will be 10
         int menuSize = Math.min(windowHeight-2*padding, windowWidth-2*padding);
-        int itemSize = Math.min(this.maxItemSize, (menuSize - (itemCount-1) * margin) / itemCount);
+        int itemSize = Math.min(this.maxItemSize, ((menuSize - (itemCount-1) * margin)) / itemCount);
+        int menuStartX = windowCenterX - menuSize/2;
+        int menuStartY = windowCenterY - menuSize/2;
+
+        // draw title stuff
+        int textX = menuStartX;
+        int textY = menuStartY-12;
+        for (var name : GestureMenuManager.getInstance().menuHistory) {
+            textX = context.drawTextWithShadow(this.textRenderer, ">", textX, textY, -1);
+            textX++;
+            textX = context.drawTextWithShadow(this.textRenderer, name, textX, textY, -1);
+            textX++;
+        }
+
+
+        // draw items
         for(var item : this.renderItemMap.values()) {
             var c = item.getCoordinate();
             int startX = windowCenterX + c.getX() * (itemSize + margin) - itemSize / 2;
             int startY = windowCenterY + c.getY() * (itemSize + margin) - itemSize / 2;
+            if(
+                    mouseX >= startX && mouseX <= startX + itemSize
+                    &&
+                    mouseY >= startY && mouseY <= startY + itemSize
+                    &&
+                    !skipDefaultImpl
+            ) {
+                this.selectedItem = item;
+            }
             item.render(
                     context, this.textRenderer,
                     startX, startY,
@@ -180,6 +202,7 @@ public class BaseGestureMenu extends Screen implements IGestureMenu {
 
     @Override
     public boolean handleMouseMove(int mouseX, int mouseY) {
+        /*
         boolean result = false;
         int deltaX = 0;
         int threshold = Configs.Generic.GESTURE_MOVEMENT_THRESHOLD.getIntegerValue();
@@ -206,6 +229,8 @@ public class BaseGestureMenu extends Screen implements IGestureMenu {
 
 
         return result;
+        */
+        return false;
     }
 
     @Override
@@ -218,5 +243,11 @@ public class BaseGestureMenu extends Screen implements IGestureMenu {
         return this.parent;
     }
 
-
+    public void initMenu() {
+        super.init(
+                MinecraftClient.getInstance().gameRenderer.getClient(),
+                MinecraftClient.getInstance().getWindow().getScaledWidth(),
+                MinecraftClient.getInstance().getWindow().getScaledHeight()
+        );
+    }
 }

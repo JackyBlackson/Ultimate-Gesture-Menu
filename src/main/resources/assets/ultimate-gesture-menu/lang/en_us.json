@@ -10,5 +10,17 @@
   "ultimate-gesture-menu.gui.title.configs": "Ultimate Gesture Menu: Configs",
 
   "ultimate-gesture-menu.message.toggled_mod_off": "Toggled all Item Scroller functionality §cOFF",
-  "ultimate-gesture-menu.message.toggled_mod_on": "Toggled all Item Scroller functionality §aON"
+  "ultimate-gesture-menu.message.toggled_mod_on": "Toggled all Item Scroller functionality §aON",
+
+
+  "ultimate-gesture-menu.command.feedback": "Hello from Ultimate Gesture Menu mod!",
+
+  "ultimate-gesture-menu.command.create.feedback": "Create a new menu by giving its unique name.",
+  "ultimate-gesture-menu.command.create.success": "Success creating a new menu with name %s.",
+  "ultimate-gesture-menu.command.create.duplicate": "The name of %s is already occupied, please change a name.",
+  "ultimate-gesture-menu.command.create.fail": "Cannot create a new menu with given name: %s.",
+
+
+
+  "ultimate-gesture-menu.menu.action.open_menu_action.fail.menu_not_found": "Cannot find an existed menu with name: %s."
 }

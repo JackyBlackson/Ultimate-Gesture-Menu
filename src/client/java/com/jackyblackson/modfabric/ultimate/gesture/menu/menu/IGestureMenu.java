@@ -17,7 +17,7 @@ public interface IGestureMenu {
      * Returns the Text of this menu
      * @return The text of title
      */
-    public Text getTitleText();
+    public String getMenuId();
 
     public IGestureMenuItem getSelectedItem();
 

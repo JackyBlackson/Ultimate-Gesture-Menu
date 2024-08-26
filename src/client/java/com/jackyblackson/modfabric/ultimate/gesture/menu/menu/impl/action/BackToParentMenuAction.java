@@ -1,5 +1,6 @@
 package com.jackyblackson.modfabric.ultimate.gesture.menu.menu.impl.action;
 
+import com.jackyblackson.modfabric.ultimate.gesture.menu.menu.GestureMenuManager;
 import com.jackyblackson.modfabric.ultimate.gesture.menu.menu.IGestureMenuItem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
@@ -14,6 +15,7 @@ public class BackToParentMenuAction extends BaseMenuAction{
             } else {
                 MinecraftClient.getInstance().setScreen(item.getMenu().getParentScreen());
             }
+            GestureMenuManager.getInstance().menuHistory.pop();
             return null;
         } catch (Exception ignored){
             return "Cannot find parent screen";

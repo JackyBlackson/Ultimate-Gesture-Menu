@@ -12,14 +12,17 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BaseMenuItem implements IGestureMenuItem {
 
     private MenuItemCoordinate coordinate;
-    private IGestureMenuAction action;
+    private List<IGestureMenuAction> actionList;
     private IGestureMenu menu;
 
     public BaseMenuItem() {
-        this.setAction(new BaseMenuAction());
+        this.actionList = new ArrayList<>();
     }
 
     @Override
@@ -38,8 +41,8 @@ public class BaseMenuItem implements IGestureMenuItem {
     }
 
     @Override
-    public IGestureMenuAction getAction() {
-        return action;
+    public List<IGestureMenuAction> getActionList() {
+        return this.actionList;
     }
 
     @Override
@@ -61,8 +64,17 @@ public class BaseMenuItem implements IGestureMenuItem {
 
     @Override
     public String act() {
-        ClientUtils.getClient().setScreen(null);
-        return this.action.act(this);
+        if(this.menu != null) {
+            ClientUtils.getClient().setScreen(this.menu.getParentScreen());
+        }
+        StringBuilder retStr = new StringBuilder();
+        for(var action : this.actionList) {
+            String actResult = action.act(this);
+            if (actResult != null) {
+                retStr.append(actResult).append("\n");
+            }
+        }
+        return retStr.toString();
     }
 
     @Override
@@ -81,7 +93,12 @@ public class BaseMenuItem implements IGestureMenuItem {
     }
 
     @Override
-    public void setAction(IGestureMenuAction action) {
-        this.action = action;
+    public void setActionList(List<IGestureMenuAction> actions) {
+        this.actionList = actions;
+    }
+
+    @Override
+    public void addAction(IGestureMenuAction action) {
+        this.actionList.add(action);
     }
 }

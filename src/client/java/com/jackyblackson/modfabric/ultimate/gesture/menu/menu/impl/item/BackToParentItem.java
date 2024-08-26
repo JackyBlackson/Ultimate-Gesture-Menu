@@ -12,7 +12,7 @@ import net.minecraft.text.Text;
 public class BackToParentItem extends BaseMenuItem{
     public BackToParentItem(IGestureMenu menu, MenuItemCoordinate coordinate, IGestureMenuAction action) {
         super();
-        this.setAction(new BackToParentMenuAction());
+        this.addAction(new BackToParentMenuAction());
     }
 
     @Override

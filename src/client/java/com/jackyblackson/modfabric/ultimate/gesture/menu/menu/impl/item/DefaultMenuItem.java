@@ -1,9 +1,8 @@
 package com.jackyblackson.modfabric.ultimate.gesture.menu.menu.impl.item;
 
-import com.jackyblackson.modfabric.ultimate.gesture.menu.menu.IGestureMenu;
-import com.jackyblackson.modfabric.ultimate.gesture.menu.menu.IGestureMenuAction;
 import com.jackyblackson.modfabric.ultimate.gesture.menu.menu.MenuItemCoordinate;
 import com.jackyblackson.modfabric.ultimate.gesture.menu.menu.impl.action.SendMessageAction;
+import com.jackyblackson.modfabric.ultimate.gesture.menu.menu.impl.menu.BaseGestureMenu;
 import com.jackyblackson.modfabric.ultimate.gesture.menu.util.Color;
 import com.jackyblackson.modfabric.ultimate.gesture.menu.util.ItemUtils;
 import net.minecraft.client.font.TextRenderer;
@@ -11,11 +10,10 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 
-public class TestMenuItem extends BaseMenuItem{
+public class DefaultMenuItem extends BaseMenuItem {
     private String itemIdString;
     private Color backgroundColor;
-    public TestMenuItem(
-            MenuItemCoordinate coordinate,
+    public DefaultMenuItem(
             String itemId,
             Color bgColor
     ) {
@@ -32,7 +30,7 @@ public class TestMenuItem extends BaseMenuItem{
                         position.getX()
                         + ", "
                         + position.getY()
-                        + "] is " + this.itemIdString + "."
+                        + "] displays a(n) " + this.itemIdString + "."
         ));
     }
 

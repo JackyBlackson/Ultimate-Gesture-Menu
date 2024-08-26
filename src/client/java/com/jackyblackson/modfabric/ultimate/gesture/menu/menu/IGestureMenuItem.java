@@ -4,13 +4,15 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 
+import java.util.List;
+
 public interface IGestureMenuItem {
     public MenuItemCoordinate getCoordinate();
 
     public int getX();
     public int getY();
 
-    public IGestureMenuAction getAction();
+    public List<IGestureMenuAction> getActionList();
 
     public void render(
             DrawContext context, TextRenderer textRenderer,
@@ -32,5 +34,7 @@ public interface IGestureMenuItem {
 
     public void setMenu(IGestureMenu menu);
 
-    public void setAction(IGestureMenuAction action);
+    public void setActionList(List<IGestureMenuAction> actions);
+
+    public void addAction(IGestureMenuAction action);
 }

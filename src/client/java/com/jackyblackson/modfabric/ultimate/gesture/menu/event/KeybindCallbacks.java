@@ -2,6 +2,7 @@ package com.jackyblackson.modfabric.ultimate.gesture.menu.event;
 
 import com.jackyblackson.modfabric.ultimate.gesture.menu.config.Hotkeys;
 import com.jackyblackson.modfabric.ultimate.gesture.menu.gui.GuiConfigs;
+import com.jackyblackson.modfabric.ultimate.gesture.menu.menu.GestureMenuManager;
 import com.jackyblackson.modfabric.ultimate.gesture.menu.menu.IGestureMenu;
 import com.jackyblackson.modfabric.ultimate.gesture.menu.menu.impl.menu.BaseGestureMenu;
 import com.jackyblackson.modfabric.ultimate.gesture.menu.menu.impl.menu.TestGestureMenu;
@@ -50,12 +51,13 @@ public class KeybindCallbacks implements IHotkeyCallback, IClientTickHandler {
         } else if (key == Hotkeys.OPEN_GESTURE_MENU.getKeybind()) {
 
             System.out.println("OPEN MENU!");
-            Screen menu = new TestGestureMenu("TestMenu", null);
-            menu.init(
-                    MinecraftClient.getInstance().gameRenderer.getClient(),
-                    MinecraftClient.getInstance().getWindow().getScaledWidth(),
-                    MinecraftClient.getInstance().getWindow().getScaledHeight()
-                    );
+            var menu = GestureMenuManager.getInstance().getMenuWithId(GestureMenuManager.getInstance().getCurrentMenu());
+            if(menu != null) {
+                menu.initMenu();
+                GestureMenuManager.getInstance().menuHistory.clear();
+                GestureMenuManager.getInstance().menuHistory.push(menu.getMenuId());
+            }
+
             MinecraftClient.getInstance().setScreen(menu);
             System.out.println("OPENED!");
             return true;
