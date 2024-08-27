@@ -5,6 +5,7 @@ import com.jackyblackson.modfabric.ultimate.gesture.menu.gui.GuiConfigs;
 import com.jackyblackson.modfabric.ultimate.gesture.menu.menu.GestureMenuManager;
 import com.jackyblackson.modfabric.ultimate.gesture.menu.menu.IGestureMenu;
 import com.jackyblackson.modfabric.ultimate.gesture.menu.menu.impl.menu.BaseGestureMenu;
+import com.jackyblackson.modfabric.ultimate.gesture.menu.menu.impl.menu.MenuManagerMenu;
 import com.jackyblackson.modfabric.ultimate.gesture.menu.menu.impl.menu.TestGestureMenu;
 import fi.dy.masa.malilib.config.options.ConfigHotkey;
 import fi.dy.masa.malilib.gui.GuiBase;
@@ -51,9 +52,8 @@ public class KeybindCallbacks implements IHotkeyCallback, IClientTickHandler {
         } else if (key == Hotkeys.OPEN_GESTURE_MENU.getKeybind()) {
 
             System.out.println("OPEN MENU!");
-            var menu = GestureMenuManager.getInstance().getMenuWithId(GestureMenuManager.getInstance().getCurrentMenu());
+            var menu = GestureMenuManager.getInstance().getMenuWithId(GestureMenuManager.getInstance().getCurrentMenu(), null);
             if(menu != null) {
-                menu.initMenu();
                 GestureMenuManager.getInstance().menuHistory.clear();
                 GestureMenuManager.getInstance().menuHistory.push(menu.getMenuId());
             }
@@ -72,6 +72,13 @@ public class KeybindCallbacks implements IHotkeyCallback, IClientTickHandler {
                     System.out.println("ACT SUCCESS!");
                 }
             }
+            return true;
+        } else if (key == Hotkeys.OPEN_CONFIG_MENU.getKeybind()) {
+            var menu = new MenuManagerMenu(null);
+            menu.initMenu();
+            GestureMenuManager.getInstance().menuHistory.clear();
+            GestureMenuManager.getInstance().menuHistory.push(menu.getMenuId());
+            MinecraftClient.getInstance().setScreen(menu);
             return true;
         }
         else {

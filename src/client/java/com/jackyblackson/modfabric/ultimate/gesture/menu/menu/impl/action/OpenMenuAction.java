@@ -15,15 +15,13 @@ public class OpenMenuAction extends BaseMenuAction{
 
     @Override
     public String act(IGestureMenuItem item) {
-        var menu = GestureMenuManager.getInstance().getMenuWithId(this.menuId);
+        var menu = GestureMenuManager.getInstance().getMenuWithId(this.menuId, (Screen)item.getMenu());
         if(menu == null) {
             return StringUtils.translate(
                     "ultimate-gesture-menu.menu.action.open_menu_action.fail.menu_not_found",
                     this.menuId
             );
         }
-        menu.initMenu();
-        menu.setParent((Screen)item.getMenu());
         GestureMenuManager.getInstance().menuHistory.push(menu.getMenuId());
         ClientUtils.getClient().setScreen(menu);
         return null;

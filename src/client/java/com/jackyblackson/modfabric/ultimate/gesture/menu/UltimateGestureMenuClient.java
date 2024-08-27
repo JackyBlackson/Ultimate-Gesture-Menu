@@ -29,7 +29,9 @@ public class UltimateGestureMenuClient implements ClientModInitializer {
 	private void setupTestEnvironment() {
 		TestGestureMenu menu1 = new TestGestureMenu("menu1", null);
 		//menu1.init();
-		var openMenu2Item = new DefaultMenuItem("command_block", Color.of(154, 169, 255, 200));
+		var openMenu2Item = new DefaultMenuItem();
+		openMenu2Item.setItemIdString("command_block");
+		openMenu2Item.setBackgroundColor(Color.of(154, 169, 255, 200));
 		openMenu2Item.addAction(new OpenMenuAction("menu2"));
 		menu1.setItem(new MenuItemCoordinate(-2, 1), openMenu2Item);
 

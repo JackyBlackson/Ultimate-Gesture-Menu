@@ -21,6 +21,11 @@ public class Hotkeys
             "C, G",
             "Open the in-game config GUI"
     );
+    public static final ConfigHotkey OPEN_CONFIG_MENU = new ConfigHotkey(
+            "open config menu",
+            "C, M",
+            "Open the in-game config menu"
+    );
     public static final ConfigHotkey OPEN_GESTURE_MENU = new ConfigHotkey(
             "open gesture gui",
             "R",
@@ -40,6 +45,7 @@ public class Hotkeys
     public static final List<ConfigHotkey> HOTKEY_LIST = ImmutableList.of(
             OPEN_CONFIG_GUI,
             OPEN_GESTURE_MENU,
-            CLOSE_GESTURE_MENU
+            CLOSE_GESTURE_MENU,
+            OPEN_CONFIG_MENU
     );
 }

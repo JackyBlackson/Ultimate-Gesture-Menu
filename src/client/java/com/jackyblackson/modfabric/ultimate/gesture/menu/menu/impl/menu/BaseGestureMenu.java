@@ -86,7 +86,7 @@ public class BaseGestureMenu extends Screen implements IGestureMenu {
         }
     }
 
-    private void initCentralItem() {
+    public void initCentralItem() {
         var c = new MenuItemCoordinate(0, 0);
         var item = new BackToParentItem(this, c, new BackToParentMenuAction());
         this.setItem(c, item);
